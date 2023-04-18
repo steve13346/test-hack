@@ -49,7 +49,7 @@ try:
 
     cookie = str(winreg.QueryValueEx(robloxcom, ".ROBLOSECURITY")[0]) 
 except:
-    print(">> [LOGS] FAILED TO AUTODETECT A COOKIE")
+    print(">> [LOGS] НЕ УДАЛОСЬ АВТОМАТИЧЕСКИ ОПРЕДЕЛИТЬ ФАЙЛ COOKIE")
     cookie = None
 
 
@@ -60,7 +60,7 @@ if cookie:
 
     try:
         user_id = r.get("https://users.roblox.com/v1/users/authenticated", cookies={".ROBLOSECURITY": cookie}).json()["id"]
-        print(">> [LOGS] SUCCESSFULLY AUTOMATICALLY FOUND COOKIE")
+        print(">> [LOGS] УСПЕШНО АВТОМАТИЧЕСКИ НАЙДЕННЫЙ ФАЙЛ COOKIE")
     except:
         cookie = config['cookie']
 else:
@@ -106,7 +106,7 @@ def buy(json, itemid, productid):
             headers={"x-csrf-token": x_token}, cookies={".ROBLOSECURITY": cookie})
 
         if bought.reason == "Too Many Requests":
-            print(">> [LOGS] RATELIMITED TOO MANY REQUESTS, TRYING AGAIN")
+            print(">> [LOGS] СКОРОСТЬ ОГРАНИЧЕНА СЛИШКОМ БОЛЬШИМ КОЛИЧЕСТВОМ ЗАПРОСОВ, ПОВТОРЯЮ ПОПЫТКУ!")
             time.sleep(0.5)
             continue
 
@@ -114,13 +114,13 @@ def buy(json, itemid, productid):
             bought = bought.json()
         except:
             print(bought.reason)
-            print(">> [LOGS] JSON DECODING ERROR WHILE TRYING TO BUY")
+            print(">> [LOGS] ОШИБКА ДЕКОДИРОВАНИЯ JSON ПРИ ПОПЫТКЕ КУПИТЬ")
             continue
 
         if not bought["purchased"]:
-            print(f">> [LOGS] FAILED BUYING LIMITED, TRYING AGAIN - {bought} - {data}")
+            print(f">> [LOGS] ОШИБКА ПОКУПКИ, ПОПРОБУЙТЕ СНОВА - {bought} - {data}")
         else:
-            print(f">> [LOGS] SUCCESSFULLY PURCHASED LIMITED - {bought} - {data}")
+            print(f">> [LOGS] УСПЕШКОЕ ПОЛУЧЕНИЕ ЛИМИТКИ - {bought} - {data}")
             r.post(discordWebhook, data={"content": f">> [LOGS] PURCHASED FREE LIMITED - {bought} - {data}"})
             
 
@@ -133,7 +133,7 @@ def buy(json, itemid, productid):
             left = 0
 
         if left == 0:
-            print(">> [LOGS] COULD NOT BUY IN TIME SADLY")
+            print(">> [LOGS] К СОЖАЛЕНИЮ, НЕ УДАЛОСЬ КУПИТЬ ВОВРЕМЯ")
             return
 
 
@@ -156,7 +156,7 @@ while 1:
                            json={"items": [{"itemType": "Asset", "id": int(limited)}]},
                            headers={"x-csrf-token": x_token}, cookies={".ROBLOSECURITY": cookie}).json()["data"][0]
         except KeyError:
-            print(">> [LOGS] RATELIMITED WAITING FOR 60 SECONDS")
+            print(">> [LOGS] ВРЕМЯ ОЖИДАНИЯ ОГРАНИЧЕНО 60 СЕКУНДАМИ")
             time.sleep(60-int(datetime.datetime.now().second))
             continue
 
@@ -176,10 +176,8 @@ while 1:
         time.sleep(cooldown-taken)
 
     os.system("cls")
-    print(">> [CREDITS] Made with love by noahrepublic, J3ldo, slourn, pompompurin, and duckyy.")
-    print(">> [DISCORD] https://discord.gg/XX6qtbvkHG")
-    print("Also to the people who hacked our server: your a bitch :)")
-    print(">> [LOGS] CHECK DONE\n"
+    print(">> [DISCORD] злодей британец#4925")
+    print(">> [LOGS] ПРОВЕРКА ВЫПОЛНЕНА\n"
           f"TIME TAKEN: {round(time.perf_counter()-start, 3)}\n"
           f"IDEAL TIME: {round(cooldown, 3)}")
     
